@@ -2,13 +2,14 @@
 
 ## 2.1 Principes directeurs
 
-L'architecture retenue repose sur cinq axes :
+L'architecture retenue repose sur six axes :
 
 1. **Élimination du SPOF** — deux serveurs physiques avec réplication automatique des VMs
 2. **Virtualisation type 1** — Proxmox VE sur bare-metal, isolation des services critiques en VMs dédiées
 3. **Segmentation réseau stricte** — VLANs par zone fonctionnelle, pare-feu OPNsense inter-zones
 4. **Wi-Fi managé** — contrôleur Wi-Fi logiciel avec SSIDs distincts, QoS et isolation des patients
 5. **Conformité RGPD** — chiffrement au repos et en transit, journalisation des accès aux données patients
+6. **Budget large disponible** — l'absence de contrainte financière permet d'opter pour des solutions robustes et redondantes (cluster 3 nœuds si justifié, SAN dédié, sauvegarde professionnelle)
 
 ---
 
@@ -98,6 +99,8 @@ flowchart TD
 | VM-WIFI | Contrôleur Wi-Fi (hostapd / OpenWRT) | Debian 12 | 2 | 2 GB | 20 GB |
 | PBS | Proxmox Backup Server | PBS OS | 4 | 8 GB | 4 TB |
 
+> **Dimensionnement stockage RGPD** : le volume de données actuel est de **5 TB** avec une croissance de **10 GB/mois** (~120 GB/an). À 5 ans, le volume atteindra ~5,6 TB de données actives. Les recommandations RGPD (durée de conservation, chiffrement, journalisation) imposent une marge supplémentaire. Le cluster est dimensionné avec 4x 4 TB SAS par nœud (ZFS RAID-Z1 = ~8 TB utile/nœud) pour absorber 5+ ans de croissance.
+
 ### Réseau
 
 - **Pare-feu** : OPNsense (VM dédiée ou appliance) — routage inter-VLAN contrôlé, IDS Suricata, logs RGPD
@@ -131,6 +134,8 @@ WireGuard VPN         → VLAN 10 uniquement  : AUTORISÉ (praticiens nomades)
 - **ZFS Replication** : réplication synchrone des datastores entre SRV1 et SRV2 (toutes les 15 min)
 - **PBS** : sauvegardes nightly 23h00, rétention 30 jours
 - **Azure Backup** : sauvegarde 2x/semaine, rétention 12 mois
+
+> Grâce au budget large disponible, la stratégie de sauvegarde peut intégrer un **abonnement Proxmox Backup Server Enterprise**, un **NAS dédié hors site** (ex. Synology RS1221+ avec disques 10 TB), et une réplication vers **Azure Backup** pour les données RGPD. Coût estimé supplémentaire : 3 000 – 5 000 €/an.
 
 ---
 
