@@ -9,6 +9,8 @@
 
 Le centre exploite également des **équipements de mesure connectés** en cabinet (tensiomètres, ECG léger, appareils d'imagerie légère) et dispose d'un système de **contrôle d'accès et de vidéosurveillance**.
 
+L'équipe technique est réduite et externalisée : elle est **hébergée dans un local proche** du site principal (espace externalisé à proximité), ce qui confirme l'absence de ressources IT internes permanentes sur site.
+
 ---
 
 ## 1.2 Situation technique actuelle
@@ -26,6 +28,7 @@ Le centre exploite également des **équipements de mesure connectés** en cabin
 | Portail patient | En cours de développement |
 | Sauvegarde | Aucune politique formelle documentée |
 | Accès nomades | Non sécurisé (solutions ad hoc) |
+| Volume de données | **5 TB actuellement**, croissance de **10 GB/mois** — données de santé soumises au RGPD |
 
 ### Points de défaillance critiques identifiés
 
@@ -94,19 +97,24 @@ Le centre exploite également des **équipements de mesure connectés** en cabin
 | **Continuité pendant migration** | Pas d'arrêt acceptable pendant les heures de consultation (L-S 8h-20h) |
 | **Compétences IT faibles** | Pas d'IT interne — la solution doit être administrable par un prestataire externe |
 | **Surface utile limitée** | Petit local technique — 2 serveurs rack 1U/2U maximum |
+| **Volume de données RGPD** | 5 TB actuels + 10 GB/mois de croissance — stratégie de stockage et archivage RGPD à planifier |
 
 ---
 
 ## 1.5 Contraintes budgétaires
 
-Le budget n'a pas été formellement chiffré, mais les contraintes implicites sont :
+Le client a confirmé la disponibilité d'un **budget large** pour ce projet. Il n'existe pas de contrainte financière particulière — la proposition peut intégrer des solutions robustes et redondantes sans compromettre l'acceptation.
 
-- **Matériel** : 2 serveurs physiques compacts (format 1U/2U)
+Les points clés validés par le client :
+
+- **Matériel** : 2 serveurs physiques compacts (format 1U/2U) — le dimensionnement peut être revu à la hausse si la redondance ou les performances l'exigent
 - **Licences** : préférence open-source ; les licences Microsoft 365 sont déjà en place
 - **OPEX** : coût mensuel maîtrisé, pas de full-cloud imprévisible
 - **Prestataire unique** : maintenance externalisée à un seul prestataire
 
 ### Estimation budgétaire prévisionnelle
+
+Les chiffres ci-dessous constituent une base de référence. Ils peuvent être dépassés si des choix techniques justifiés apportent une meilleure redondance ou de meilleures performances.
 
 | Poste | Estimation (HT) |
 |---|---|
@@ -118,7 +126,7 @@ Le budget n'a pas été formellement chiffré, mais les contraintes implicites s
 | Abonnement Azure Backup (500 GB/an) | ~400 €/an |
 | **Total CAPEX estimé** | **~17 000 – 29 000 €** |
 
-> À comparer au risque : une journée d'arrêt total d'une clinique de 32 personnes représente une perte d'activité et un risque réglementaire (RGPD) non négligeable.
+> Ces estimations sont indicatives. Le client ayant confirmé un budget large, des options complémentaires (stockage redondant supplémentaire, licences entreprise, matériel haute disponibilité) peuvent être proposées et chiffrées séparément.
 
 ---
 
@@ -138,4 +146,5 @@ Accès nomades        → Non sécurisé          → VPN WireGuard + MFA
 Pas de PRA           → 0 plan de reprise     → PBS + Azure Backup + PRA écrit
 Portail patient      → Hébergement précaire  → VM DMZ dédiée
   en projet
+5 TB + 10 GB/mois   → Croissance données    → Stockage scalable + archivage RGPD
 ```
