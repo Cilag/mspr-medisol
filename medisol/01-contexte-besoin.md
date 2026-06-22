@@ -106,16 +106,16 @@ L'équipe technique est réduite et externalisée : elle est **hébergée dans u
 ```
 Situation actuelle    → Problème             → Besoin
 ──────────────────────────────────────────────────────────────────────
-Réseau plat          → Données patients      → VLANs + pare-feu OPNsense
+Réseau plat          → Données patients      → VLANs + pare-feu SOPHOS
                        exposées              
 Wi-Fi unique         → Saturation + risque   → SSIDs par VLAN + QoS
 1 serveur imagerie   → SPOF données          → 2 nœuds Proxmox + réplication
 Logiciel patient     → Lenteurs aux pointes  → VM dédiée WS 2022
   sur poste physique                         
-Accès nomades        → Non sécurisé          → VPN WireGuard + MFA
+Accès nomades        → Non sécurisé          → VPN SOPHOS + MFA
   non sécurisés
-Pas de PRA           → 0 plan de reprise     → PBS + Azure Backup + PRA écrit
-Portail patient      → Hébergement précaire  → VM DMZ dédiée
+Pas de PRA           → 0 plan de reprise     → VEEAM + Azure Backup + PRA écrit
+Portail patient      → Hébergement précaire  → VM NGNIX
   en projet
 5 TB + 10 GB/mois   → Croissance données    → Stockage scalable + archivage RGPD
 ```
