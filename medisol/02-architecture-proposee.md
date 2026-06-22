@@ -9,7 +9,6 @@ L'architecture retenue repose sur six axes :
 3. **Segmentation réseau stricte** — VLANs par zone fonctionnelle, pare-feu OPNsense inter-zones
 4. **Wi-Fi managé** — contrôleur Wi-Fi logiciel avec SSIDs distincts, QoS et isolation des patients
 5. **Conformité RGPD** — chiffrement au repos et en transit, journalisation des accès aux données patients
-6. **Budget large disponible** — l'absence de contrainte financière permet d'opter pour des solutions robustes et redondantes (cluster 3 nœuds si justifié, SAN dédié, sauvegarde professionnelle)
 
 ---
 
@@ -70,11 +69,12 @@ flowchart TD
 
 | VLAN | Nom | Plage IP | Accès autorisé | Accès interdit |
 |---|---|---|---|---|
-| **VLAN 10** | Métier accueil | 10.0.10.0/24 | VM-PATIENT, imprimantes | Internet direct, VLAN 99 |
-| **VLAN 20** | Administration | 10.0.20.0/24 | VM-IMAGERIE, M365, imprimantes | VLAN 99, VLAN 40 |
-| **VLAN 30** | Serveurs | 10.0.30.0/24 | VMs internes uniquement | Tout accès direct externe |
-| **VLAN 40** | IoT / Caméras | 10.0.40.0/24 | NVR local uniquement | Tous les autres VLANs |
-| **VLAN 99** | Invités / Patients | 10.0.99.0/24 | Internet uniquement | Tous les VLANs internes |
+| **VLAN 10** | USER | 10.10.0.0/24 | VM-PATIENT, imprimantes | Internet direct, VLAN 99 |
+| **VLAN 20** | CLIENTS | 10.20.0.0/24 | VM-IMAGERIE, M365, imprimantes | VLAN 99, VLAN 40 |
+| **VLAN 30** | INFRA | 10.30.0.0/24 | VMs internes uniquement | Tout accès direct externe |
+| **VLAN 40** | IOT | 10.40.0.0/24 | NVR local uniquement | Tous les autres VLANs |
+| **VLAN 40** | SEECURITY | 10.50.0.0/24 | NVR local uniquement | Tous les autres VLANs |
+| **VLAN 99** | ADMIN | 10.99.0.0/24 | Internet uniquement | Tous les VLANs internes |
 
 ---
 
